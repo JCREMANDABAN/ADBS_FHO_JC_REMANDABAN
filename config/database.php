@@ -1,18 +1,19 @@
 <?php
-class Database {
-    private $host = "localhost";
-    private $db_name = "hrm";
-    private $username = "root";
-    private $password = "";
-    public $conn;
+$host = "localhost";
+$db   = "hrm";
+$user = "root";
+$pass = ""; // default XAMPP password
+$charset = "utf8mb4";
 
-    public function connect() {
-        $this->conn = new PDO(
-            "mysql:host={$this->host};dbname={$this->db_name}",
-            $this->username,
-            $this->password
-        );
-        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        return $this->conn;
-    }
+$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+$options = [
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+];
+
+try {
+    $pdo = new PDO($dsn, $user, $pass, $options);
+} catch (PDOException $e) {
+    die("Database connection failed: " . $e->getMessage());
 }
+?>
